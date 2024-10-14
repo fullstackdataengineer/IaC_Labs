@@ -1,0 +1,16 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    list1: ['Template iterate','Template loop','Template item']
+    variable_to_be_replaced: 'Hello world'
+    inline_variable: 'hello again'
+  tasks:
+    - name: Ansible template loop example.
+      template:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        mode: 0777
+      with_items:
+        - {src: 'hello_world.j2',dest: 'output/hello_world_with_items.txt'}
+        - {src: 'jinja_loop.j2',dest: 'output/jinja_loop_with_items.txt'}
+        - {src: 'list_variables.j2',dest: 'output/list_variables_with_items.txt'}

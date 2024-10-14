@@ -1,0 +1,8 @@
+- hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: Ansible Template Example
+      template:
+        src: jinja_loop.j2
+        dest: output/jinja_loop.txt

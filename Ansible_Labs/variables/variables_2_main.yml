@@ -1,0 +1,33 @@
+---
+- hosts: localhost
+  vars:
+    title: people dataset
+    people:
+      - name: Eduardo
+        lastname: Rodriguez
+        job: Engineer
+        skills: [ 'coding', 'singing' ]
+      - name: Freddy
+        lastname: Mercury
+        job: Artist
+        skills:
+          - singing
+          - dancing
+
+  tasks:
+    - name: debug vars
+      debug:
+        msg: "{{ planet }}"
+      when: ansible_facts['os_family'] == 'RedHat'
+
+    - name: debug people
+      debug:
+        msg:
+          - title = {{ title }}
+          - job = {{ people.0.job }}
+          - skills = {{ people.0.skills }}
+          - main skill = {{ people[0]['skills'][0] }}
+          - lastname = {{ people[0]['lastname'] }}
+          - "----------"
+          - "{{ people.1.name }} skills: {{ people[1]['skills'] | join(', ') }}"
+          - main skill = "{{ people.1.skills.0 }}"

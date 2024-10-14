@@ -1,0 +1,10 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    list1: ['Template iterate','Template loop','Template item']
+  tasks:
+    - name: Ansible template loop example.
+      template:
+        src: list_variables.j2
+        dest: output/list_variables.txt
+        mode: 0777

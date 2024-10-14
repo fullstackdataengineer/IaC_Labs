@@ -1,0 +1,4 @@
+Ansible template for loop example
+  This is the 0th variable
+  This is the 1th variable
+  This is the 2th variable

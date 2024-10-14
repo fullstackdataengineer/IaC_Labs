@@ -1,0 +1,16 @@
+mail.example.com # ungrouped host
+[webservers] # webservers group
+foo.example.com
+bar.example.com
+www[01:05].example.com
+[dbservers] # dbservers group
+one.example.com
+two.example.com
+three.example.com
+db-[a:f].example.com
+
+[local]
+localhost ansible_connection=local
+
+[webservers:vars]
+users=edu,john,jose

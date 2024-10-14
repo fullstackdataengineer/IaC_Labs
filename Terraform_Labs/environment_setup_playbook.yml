@@ -1,0 +1,72 @@
+---
+- name: Install Azure CLI, AWS CLI, and Terraform
+  hosts: localhost
+  become: yes  # Ensure we run as root for installations
+
+  tasks:
+    # Update package cache
+    - name: Update apt package manager
+      apt:
+        update_cache: yes
+
+    # Install required dependencies
+    - name: Install dependencies for CLI installations
+      apt:
+        name:
+          - curl
+          - unzip
+          - apt-transport-https
+          - ca-certificates
+          - python3-venv  # Install venv for virtual environment creation
+          - software-properties-common
+        state: present
+
+    # Create a virtual environment for Azure CLI
+    - name: Create a virtual environment for Azure CLI
+      command: python3 -m venv /opt/azure-cli-venv
+
+    # Install Azure CLI inside the virtual environment
+    - name: Install Azure CLI in the virtual environment
+      command: /opt/azure-cli-venv/bin/pip install azure-cli
+
+    # Install AWS CLI
+    - name: Download AWS CLI installation script
+      get_url:
+        url: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
+        dest: "/tmp/awscliv2.zip"
+
+    - name: Unzip AWS CLI
+      unarchive:
+        src: /tmp/awscliv2.zip
+        dest: /tmp/
+        remote_src: yes
+
+    - name: Install AWS CLI
+      command: "/tmp/aws/install"
+
+    # Install Terraform
+    - name: Add HashiCorp GPG key for Terraform
+      apt_key:
+        url: https://apt.releases.hashicorp.com/gpg
+        state: present
+
+    - name: Add HashiCorp repository
+      apt_repository:
+        repo: deb [arch=amd64] https://apt.releases.hashicorp.com focal main
+        state: present
+
+    - name: Install Terraform
+      apt:
+        name: terraform
+        state: present
+
+    # Clean up temporary files
+    - name: Remove AWS CLI installation files
+      file:
+        path: "/tmp/awscliv2.zip"
+        state: absent
+
+    - name: Remove AWS CLI unarchived folder
+      file:
+        path: "/tmp/aws"
+        state: absent

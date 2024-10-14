@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  gather_facts: yes
+  vars_prompt:
+    - name: user_name
+      prompt: "Please enter your user name"
+      private: no
+  tasks:
+    - name: Print some Ansible facts
+      debug:
+        msg: >
+          Hello, {{ user_name }}!
+          This container is running on a {{ ansible_architecture }} architecture.
+          The operating system is {{ ansible_distribution }} {{ ansible_distribution_version }} ({{ ansible_distribution_release }}).
+          The kernel version is {{ ansible_kernel }}.
+          The container hostname is {{ ansible_hostname }}.
+          The total memory available is {{ ansible_memtotal_mb }} MB, with {{ ansible_memfree_mb }} MB free.
+          The system uptime is {{ ansible_uptime_seconds }} seconds.
+          The container is running under {{ ansible_virtualization_type }} virtualization.

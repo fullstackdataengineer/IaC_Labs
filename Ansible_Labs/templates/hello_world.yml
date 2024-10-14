@@ -1,0 +1,10 @@
+- hosts: localhost
+  gather_facts: no
+  vars:
+    variable_to_be_replaced: 'Hello world'
+    inline_variable: 'hello again'
+  tasks:
+    - name: Ansible Template Example
+      template:
+        src: hello_world.j2
+        dest: output/hello_world.txt
